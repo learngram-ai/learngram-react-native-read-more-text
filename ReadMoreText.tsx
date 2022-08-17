@@ -91,7 +91,7 @@ export default function ReadMoreText({
         {...props}
       >
         {text.isTruncatedText && !readMore && text.length !== 0
-          ? `${children.slice(0, text.length - 18).trim()}... `
+          ? `${children.slice(0, text.length - 8).trim()}... `
           : `${children} `}
         {text.isTruncatedText && (
           <Text
