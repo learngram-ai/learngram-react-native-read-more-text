@@ -15,6 +15,7 @@ export interface  ReadMoreTextProps extends TextProps {
   readLessText?: string;
   readMoreStyle?: StyleProp<TextStyle>;
   readLessStyle?: StyleProp<TextStyle>;
+  onReadMorePress?: any;
 }
 export default function ReadMoreText({
   style,
@@ -24,6 +25,7 @@ export default function ReadMoreText({
   readLessText = "less",
   readMoreStyle = {color: "black"},
   readLessStyle = {color: "black"},
+  onReadMorePress,
   ...props
 }: ReadMoreTextProps) {
   const [readMore, setReadMore] = useState<boolean>(false);
@@ -36,6 +38,14 @@ export default function ReadMoreText({
       return readLessStyle;
     }
     return readMoreStyle;
+  }
+
+  const onPress = (readMore: boolean) => {
+    if(onReadMorePress){
+      onReadMorePress();
+      return;
+    }
+    setReadMore(!readMore);
   }
   
   function handleReadMoreText(textLayoutLines: TextLayoutLine[]) {
@@ -81,12 +91,12 @@ export default function ReadMoreText({
         {...props}
       >
         {text.isTruncatedText && !readMore && text.length !== 0
-          ? `${children.slice(0, text.length - 10).trim()}...`
-          : children}
+          ? `${children.slice(0, text.length - 18).trim()}... `
+          : `${children} `}
         {text.isTruncatedText && (
           <Text
             style={getReadMoreStyle()}
-            onPress={() => setReadMore(!readMore)}
+            onPress={() => onPress(readMore)}
           >
             {readMore ? readLessText : readMoreText}
           </Text>
